@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Home = lazy(() => import('./Home/Home'));
@@ -29,11 +29,11 @@ export const App = () => {
   const [, setButtonClicked] = useState(false);
 
   return (
-    <Router>
+    <BrowserRouter>
       <Suspense fallback={<div>Uploading...</div>}>
         <AppContainer>
           <Header>
-            <StyledLink to="/home">Home</StyledLink>
+            <StyledLink to="/">Home</StyledLink>
             <StyledLink to="/movies">Movies</StyledLink>
           </Header>
           <Routes>
@@ -47,6 +47,6 @@ export const App = () => {
           </Routes>
         </AppContainer>
       </Suspense>
-    </Router>
+    </BrowserRouter>
   );
 };
