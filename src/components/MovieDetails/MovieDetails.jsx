@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, Route, Routes, useNavigate } from 'react-router-dom';
+import { useParams, Link, Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import Cast from '../Cast/Cast';
 import Reviews from '../Reviews/Reviews'; 
 import axios from 'axios';
@@ -56,7 +56,7 @@ const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const { movieId } = useParams(); 
   const navigate = useNavigate();
-
+  const location = useLocation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,11 +71,19 @@ const MovieDetails = () => {
     fetchData();
   }, [movieId]);
 
+  const handleGoBack = () => {
+    if (location.state && location.state.from) {
+      navigate(location.state.from);
+    } else {
+      navigate('/home');
+    }
+  };
+
   if (!movieDetails) return 'Loading...';
 
   return (
     <>
-    <GoBackButton onClick={() => navigate(-1)}>
+      <GoBackButton onClick={handleGoBack}>
         <BackIcon />
         Go Back
       </GoBackButton>
@@ -92,8 +100,8 @@ const MovieDetails = () => {
       </MovieContainer>
       <MovieActions>
         <h3>Additional Information</h3>
-          <Link to={`cast`}>Cast</Link>
-          <Link to={`reviews`}>Reviews</Link>
+          <Link to={`/movies/${movieId}/cast`}>Cast</Link>
+          <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
       </MovieActions>
       <Routes>
         <Route path="cast" element={<Cast movieId={movieId} />} />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Form = styled.form`
   display: flex;
@@ -35,6 +35,7 @@ const Button = styled.button`
 const Movies = () => {
   const [data, setData] = useState(null);
   const [keyword, setKeyword] = useState('');
+  const location = useLocation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,7 +71,7 @@ const Movies = () => {
       </Form>
       {data ? data.map(movie => (
         <div key={movie.id}>
-          <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+          <Link to={{ pathname: `/movies/${movie.id}`, state: { from: location.pathname } }}>{movie.title}</Link>
         </div>
       )) : null}
     </div>

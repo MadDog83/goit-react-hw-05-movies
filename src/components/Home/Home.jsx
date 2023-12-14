@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Home = ({ setButtonClicked }) => {
   const [data, setData] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +21,7 @@ const Home = ({ setButtonClicked }) => {
       {data ? (
         data.map(item => (
           <div key={item.id}>
-            <Link to={`/movies/${item.id}`}>{item.title}</Link>
+            <Link to={{ pathname: `/movies/${item.id}`, state: { from: location.pathname } }}>{item.title}</Link>
           </div>
         ))
       ) : null}
